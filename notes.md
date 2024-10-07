@@ -17,6 +17,7 @@ info: within the notes there are some instructions on how to make certain files,
 > mimikatz > https://github.com/gentilkiwi/mimikatz
 // > mike's dll + C code from OneDrive (if dll hijack)
 // > bat2exe > https://github.com/islamadel/bat2exe/releases/download/2.1/bat2exe.exe
+// > bat to exe converter > https://bat-to-exe-converter-x64.en.softonic.com/
 
 3) commands
 > whoami (check current user in terminal)
