@@ -18,7 +18,7 @@
 2) files to download
 > sysinternals suite > https://download.sysinternals.com/files/SysinternalsSuite.zip
 > mimikatz > https://github.com/gentilkiwi/mimikatz
-// > mike's dll + C code from OneDrive (if dll hijack)
+// > mike's dll + C code from OneDrive (if dll hijack) (use this repo instead if you want)
 // > bat2exe > https://github.com/islamadel/bat2exe/releases/download/2.1/bat2exe.exe > "access denied error"
 // > bat to exe converter > https://bat-to-exe-converter-x64.en.softonic.com/ > should work (make sure to use the 64bit exe-format)
 
@@ -152,7 +152,7 @@ ________________________________________________________________________________
 > echo %path%
 > look if there is a writable directory listed (like C:\temp)
 > go back to own machine
-> download Mike's dll + C code from OneDrive if not done yet
+> download Mike's dll + C code from OneDrive if not done yet (or use this repo)
 > note down the the fake admin credentials after opening his C code in notepad
 > rename dll to the name you noted down earlier
 > copy dll to the VM
