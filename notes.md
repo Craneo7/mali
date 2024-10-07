@@ -49,7 +49,7 @@ ________________________________________________________________________________
 // > right click cmd -> open (opens system cmd)
 // > [add user command]
 
-2) unquoted service path
+2) unquoted service path (method could be outdated due to bat2exe not working, use "bat to exe converter")
 > open services
 > sort by description, so services without a description appear on top
 > check if "path to executable:" has spaces and no quotes
@@ -91,19 +91,24 @@ ________________________________________________________________________________
 > "C:\Windows\Tasks Migrated" may contain tasks you can exploit / configure
 > example from lab: pinger
 > "C:\Windows\Tasks Migrated" contained the task "pinger"
-> open task scheduler
-> the "tasks migrated" folder shouldn't be in the folder tree
-> go to action -> import task
-> select "all files" on bottom right
-> navigate to "C:\Windows\Tasks Migrated"
-> open "pinger" or whatever task looks weak (only one word for example)
-> go to triggers and see what triggers it
-> go to action to see what it does and what file it triggers (.bat for example)
-> check if the file is renamable and if the directory is writable
-> rename the file to whatever
-> place your own file (add administrative user through a batch file)
 
 > open task in notepad (easier method than opening in task scheduler)
+> on line 5 should be the author
+> if it's "administrator", the task should run with elevated privs
+> at the bottom of the file should be the command it runs
+> go to the directory of the file it runs, and check if you can change the name
+> place your own file in the directory and rename it to the filename you saw in notepad
+
+// > the "tasks migrated" folder shouldn't be in the folder tree
+// > go to action -> import task
+// > select "all files" on bottom right
+// > navigate to "C:\Windows\Tasks Migrated"
+// > open "pinger" or whatever task looks weak (only one word for example)
+// > go to triggers and see what triggers it
+// > go to action to see what it does and what file it triggers (.bat for example)
+// > check if the file is renamable and if the directory is writable
+// > rename the file to whatever
+// > place your own file (add administrative user through a batch file)
 
 6) DACL service
 > go to services
