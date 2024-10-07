@@ -1,6 +1,9 @@
 >>> general
 
-info: within the notes there are some instructions on how to make certain files, but they can just be downloaded from the repository :)
+0) info
+> within the notes there are some instructions on how to make certain files, but they can just be downloaded from the repository :)
+> the dll and exe have been tested and should just work (username: Helpdesk & pass: L3tm3!n)
+> if they don't work you'll have to make them yourself, the notes might help you with it
 
 1) orientation
 > ip's and names (hostname, dc-name, etc.) might be outdated for skills test
@@ -16,8 +19,8 @@ info: within the notes there are some instructions on how to make certain files,
 > sysinternals suite > https://download.sysinternals.com/files/SysinternalsSuite.zip
 > mimikatz > https://github.com/gentilkiwi/mimikatz
 // > mike's dll + C code from OneDrive (if dll hijack)
-// > bat2exe > https://github.com/islamadel/bat2exe/releases/download/2.1/bat2exe.exe
-// > bat to exe converter > https://bat-to-exe-converter-x64.en.softonic.com/
+// > bat2exe > https://github.com/islamadel/bat2exe/releases/download/2.1/bat2exe.exe > "access denied error"
+// > bat to exe converter > https://bat-to-exe-converter-x64.en.softonic.com/ > should work
 
 3) commands
 > whoami (check current user in terminal)
