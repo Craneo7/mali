@@ -1,5 +1,7 @@
 >>> general
 
+info: within the notes there are some instructions on how to make certain files, but they can just be downloaded from the repository :)
+
 1) orientation
 > ip's and names (hostname, dc-name, etc.) might be outdated for skills test
 > use angry ip scanner if available
@@ -11,10 +13,10 @@
 > use -> accesschk -uwvc "normaluser" * <- (daclsvc)
 
 2) files to download
-> bat2exe
-> sysinternals suite (contains multiple good tools)
-> mimikatz
-> mike's dll + C code from OneDrive (if dll hijack)
+> sysinternals suite > https://download.sysinternals.com/files/SysinternalsSuite.zip
+> mimikatz > https://github.com/gentilkiwi/mimikatz
+// > mike's dll + C code from OneDrive (if dll hijack)
+// > bat2exe > https://github.com/islamadel/bat2exe/releases/download/2.1/bat2exe.exe
 
 3) commands
 > whoami (check current user in terminal)
