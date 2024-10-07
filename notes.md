@@ -34,14 +34,14 @@ ________________________________________________________________________________
 
 >>> privilege escalation methods
 
-1) remote mouse
-> click on green icon bottom right
-> settings
-> under image transfer folder click "Change..."
-> click OK if prompted with error
-> go to C:\Windows\System32 and type "cmd"
-> right click cmd -> open (opens system cmd)
-> [add user command]
+1) remote mouse // not gonna be in the test (confirmed)
+// > click on green icon bottom right
+// > settings
+// > under image transfer folder click "Change..."
+// > click OK if prompted with error
+// > go to C:\Windows\System32 and type "cmd"
+// > right click cmd -> open (opens system cmd)
+// > [add user command]
 
 2) unquoted service path
 > open services
