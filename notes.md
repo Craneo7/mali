@@ -2,7 +2,7 @@
 
 0) info
 > within the notes there are some instructions on how to make certain files, but they can just be downloaded from the repository :)
-> the dll and exe have been tested and should just work (username: Helpdesk & pass: L3tm3!n)
+> the dll, exe and msi files have been tested and should just work (username: Helpdesk & pass: L3tm3!n)
 > if they don't work you'll have to make them yourself, the notes might help you with it
 
 1) orientation
@@ -116,7 +116,17 @@ ________________________________________________________________________________
 > run the service
 > might have to do the sc command multiple times and run the service again
 
-7) dll hijack
+7) msi exploit
+> open registry editor
+> go to:
+> Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Installer
+> and
+> Computer\HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\Installer
+> if both have "AlwaysInstallElevated" set to 1, .msi files will be executed with highest privileges
+> you might be able to install a .exe to .msi converter on the host machine
+> or easier, just use the .msi file from this repo
+
+8) dll hijack
 > last resort for privilege escalation
 > go to services
 > there may be a service that indicates a dll hijack
