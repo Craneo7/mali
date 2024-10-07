@@ -8,7 +8,7 @@
 > look for services running as a named user account
 > check "C:\Windows\Tasks Migrated" for weakly named tasks (single word names)
 > check "\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\regsvc" (imagepath edit)
-> use "accesschk -uwvc "normaluser" *" (daclsvc)
+> use -> accesschk -uwvc "normaluser" * <- (daclsvc)
 
 2) files to download
 > bat2exe
