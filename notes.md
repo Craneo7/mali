@@ -20,7 +20,7 @@
 > mimikatz > https://github.com/gentilkiwi/mimikatz
 // > mike's dll + C code from OneDrive (if dll hijack)
 // > bat2exe > https://github.com/islamadel/bat2exe/releases/download/2.1/bat2exe.exe > "access denied error"
-// > bat to exe converter > https://bat-to-exe-converter-x64.en.softonic.com/ > should work
+// > bat to exe converter > https://bat-to-exe-converter-x64.en.softonic.com/ > should work (make sure to use the 64bit exe-format)
 
 3) commands
 > whoami (check current user in terminal)
