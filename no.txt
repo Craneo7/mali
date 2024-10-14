@@ -141,7 +141,7 @@ ________________________________________________________________________________
 > echo %path%
 > look if there is a writable directory listed (like C:\temp)
 > go back to own machine
-> download Mike's dll + C code from OneDrive if not done yet (or use this repo)(make sure you know the password used)
+> download Mike's dll + C code from OneDrive if not done yet (or use this repo | Helpdesk/L3tm3!n)
 > rename dll to the name you noted down earlier
 > copy dll to the VM
 > place dll inside the directory you found in %path%
